@@ -1,0 +1,41 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<title>Fun with computational geometry!</title>
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/min/1.5/min.min.css">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="elm.js"></script>
+	</head>
+	<body>
+		<h1>Fun with computational geometry!</h1>
+		<div class="demo">
+			<h3>Point in triangle?</h3>
+			<p>
+				Create three points by clicking in the box. Add a forth one,
+				and the computer will tell if it is inside or outside of the triangle.
+			</p>
+			<div id="point-in-triangle" class="demo-canvas"></div>
+			<p id="in-triangle-string"></p>
+		</div>
+		<div class="demo">
+			<h3>Radial Sort</h3>
+			<p>
+				Click to add a point. Add more points and a line will be drawn through all
+				the points in their sorted order.
+			</p>
+			<div id="radial-sort" class="demo-canvas"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		Elm.embed(Elm.RadialSort, document.getElementById('radial-sort'));
+		Elm.embed(Elm.PointInTriangle, document.getElementById('point-in-triangle'))
+		   .ports.inTriangle.subscribe(function(str) {
+			var trianglestr = document.getElementById('in-triangle-string');
+			if(str) {
+				trianglestr.innerHTML = str;
+			} else {
+				trianglestr.innerHTML = "";
+			}
+		});
+	</script>	
+</html>
