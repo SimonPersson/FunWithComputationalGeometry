@@ -1,7 +1,7 @@
 {
     "version": "0.0.1",
     "summary": "I solve computational geometry problems in Elm.",
-    "repository": "https://github.com/SimonPersson/FunWithComputationalGeometry",
+    "repository": "https://github.com/SimonPersson/FunWithComputationalGeometry.git",
     "license": "GPLv3",
     "source-directories": [
         "."
