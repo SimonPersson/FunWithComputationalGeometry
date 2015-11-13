@@ -7,13 +7,15 @@ import Graphics.Collage exposing (Form, path, segment, circle, move, filled
 type alias Point = (Int, Int)
 type alias FloatPoint = (Float, Float)
 
+type alias Line = (Point, Point)
+
 toFloatPoint : Point -> FloatPoint
 toFloatPoint (x, y) = (toFloat x, toFloat y)
 
 type Direction = Right | Left | Straight
 
-turns : Point -> Point -> Point -> Direction
-turns (ax, ay) (bx, by) (cx, cy) = let
+turns : Line -> Line -> Direction
+turns ((ax, ay), (bx, by)) ((bx, by), (cx, cy)) = let
     cross = (ax-bx)*(by-cy)-(ay-by)*(bx-cx)
   in 
     if | cross < 0 -> Right
@@ -25,7 +27,7 @@ sortPointsAround (px, py) lst = let
     comparator (ax, ay) (bx, by) = 
       if | ax < px && bx >= px -> LT
          | ax >= px && bx < px -> GT
-         | otherwise -> case turns (px, py) (ax, ay) (bx, by) of
+         | otherwise -> case turns ((px, py), (ax, ay)) ((ax, ay), (bx, by)) of
                                 Right -> GT
                                 Left -> LT
                                 Straight -> EQ

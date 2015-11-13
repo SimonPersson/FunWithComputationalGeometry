@@ -3,8 +3,7 @@ module RadialSort where
 import Graphics.Collage exposing (Form, collage, outlined)
 import List as L
 import Signal as S
-import ComputationalGeometry as CG exposing(Point, pointToForm, turns
-                                            , toFloatPoint, sortedPath)
+import ComputationalGeometry as CG exposing(Point, pointToForm, toFloatPoint, sortedPath)
 import Common exposing (clickCoordinates, size)
 
 points : List Point -> List Form

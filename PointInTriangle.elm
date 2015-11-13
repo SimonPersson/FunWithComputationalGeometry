@@ -30,10 +30,10 @@ lines coords = let
 pointInTriangleString : List Point -> Maybe String
 pointInTriangleString coords = let
     inTriangle a b c x =
-      CG.turns c b a == CG.turns c b x
-      && CG.turns b a c == CG.turns b a x
-      && CG.turns a c b == CG.turns a c x
-      && CG.turns c b a /= CG.Straight
+      CG.turns (c, b) (b, a) == CG.turns (c, b) (b, x)
+      && CG.turns (b, a) (a, c) == CG.turns (b, a) (a, x)
+      && CG.turns (a, c) (c, b) == CG.turns (a, c) (c, x)
+      && CG.turns (c, b) (b, a) /= CG.Straight
   in
     case coords of
       x::a::b::c::_ -> if | inTriangle a b c x -> Just "Point is in triangle"
