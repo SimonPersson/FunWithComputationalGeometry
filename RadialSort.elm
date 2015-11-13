@@ -7,11 +7,11 @@ import ComputationalGeometry as CG exposing(Point, pointToForm, toFloatPoint, so
 import Common exposing (clickCoordinates, size)
 
 points : List Point -> List Form
-points coords = List.map pointToForm coords
+points coords = L.map pointToForm coords
 
 drawToCanvas lst = collage size.x size.y lst
 
-main = Signal.map drawToCanvas <|
-       Signal.map2 (++)
-       (Signal.map sortedPath clickCoordinates)
-       (Signal.map points clickCoordinates)
+main = S.map drawToCanvas <|
+       S.map2 (++)
+       (S.map sortedPath clickCoordinates)
+       (S.map points clickCoordinates)
