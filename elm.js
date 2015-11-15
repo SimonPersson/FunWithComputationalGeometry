@@ -628,6 +628,111 @@ Elm.Color.make = function (_elm) {
                        ,darkGray: darkGray};
    return _elm.Color.values;
 };
+Elm.Common = Elm.Common || {};
+Elm.Common.make = function (_elm) {
+   "use strict";
+   _elm.Common = _elm.Common || {};
+   if (_elm.Common.values)
+   return _elm.Common.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Common",
+   $Basics = Elm.Basics.make(_elm),
+   $Color = Elm.Color.make(_elm),
+   $ComputationalGeometry = Elm.ComputationalGeometry.make(_elm),
+   $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Mouse = Elm.Mouse.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var lineToForm = function (_v0) {
+      return function () {
+         switch (_v0.ctor)
+         {case "_Tuple2":
+            return $Graphics$Collage.outlined($Graphics$Collage.solid($Color.black))(A2($Graphics$Collage.segment,
+              $ComputationalGeometry.toFloatPoint(_v0._0),
+              $ComputationalGeometry.toFloatPoint(_v0._1)));}
+         _U.badCase($moduleName,
+         "on line 45, column 21 to 87");
+      }();
+   };
+   var pointToBigForm = function (coords) {
+      return $Graphics$Collage.move($ComputationalGeometry.toFloatPoint(coords))($Graphics$Collage.filled($Color.black)($Graphics$Collage.circle(5)));
+   };
+   var pointToForm = function (coords) {
+      return $Graphics$Collage.move($ComputationalGeometry.toFloatPoint(coords))($Graphics$Collage.filled($Color.brown)($Graphics$Collage.circle(2)));
+   };
+   var sortedPathAround = F2(function (p,
+   lst) {
+      return _L.fromArray([$Graphics$Collage.outlined($Graphics$Collage.solid($Color.black))($Graphics$Collage.path($List.map($ComputationalGeometry.toFloatPoint)(A2($ComputationalGeometry.sortPointsAround,
+      p,
+      lst))))]);
+   });
+   var mouseEvents = A2($Signal.sampleOn,
+   $Mouse.clicks,
+   $Mouse.position);
+   var size = {_: {}
+              ,x: 600
+              ,y: 600};
+   var inCanvas = function (_v4) {
+      return function () {
+         switch (_v4.ctor)
+         {case "_Tuple2":
+            return _U.cmp(_v4._0,
+              size.x) < 0 && _U.cmp(_v4._1,
+              size.y) < 0;}
+         _U.badCase($moduleName,
+         "on line 16, column 19 to 43");
+      }();
+   };
+   var relativeCoordinates = function (_v8) {
+      return function () {
+         switch (_v8.ctor)
+         {case "_Tuple2":
+            return {ctor: "_Tuple2"
+                   ,_0: _v8._0 - (size.x / 2 | 0)
+                   ,_1: (size.y / 2 | 0) - _v8._1};}
+         _U.badCase($moduleName,
+         "on line 30, column 31 to 59");
+      }();
+   };
+   var clickCoordinates = function () {
+      var update = F2(function (_v12,
+      locations) {
+         return function () {
+            switch (_v12.ctor)
+            {case "_Tuple2":
+               return A2($Basics._op["++"],
+                 locations,
+                 _L.fromArray([relativeCoordinates({ctor: "_Tuple2"
+                                                   ,_0: _v12._0
+                                                   ,_1: _v12._1})]));}
+            _U.badCase($moduleName,
+            "on line 23, column 31 to 70");
+         }();
+      });
+      return A2($Signal.foldp,
+      update,
+      _L.fromArray([]))(A3($Signal.filter,
+      inCanvas,
+      {ctor: "_Tuple2",_0: 0,_1: 0},
+      mouseEvents));
+   }();
+   _elm.Common.values = {_op: _op
+                        ,size: size
+                        ,mouseEvents: mouseEvents
+                        ,inCanvas: inCanvas
+                        ,clickCoordinates: clickCoordinates
+                        ,relativeCoordinates: relativeCoordinates
+                        ,sortedPathAround: sortedPathAround
+                        ,pointToForm: pointToForm
+                        ,pointToBigForm: pointToBigForm
+                        ,lineToForm: lineToForm};
+   return _elm.Common.values;
+};
 Elm.ComputationalGeometry = Elm.ComputationalGeometry || {};
 Elm.ComputationalGeometry.make = function (_elm) {
    "use strict";
@@ -644,52 +749,323 @@ Elm.ComputationalGeometry.make = function (_elm) {
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
-   var cross = F3(function (_v0,
-   _v1,
-   _v2) {
+   var Straight = {ctor: "Straight"};
+   var Left = {ctor: "Left"};
+   var Right = {ctor: "Right"};
+   var turns = F2(function (_v0,
+   _v1) {
       return function () {
-         switch (_v2.ctor)
+         switch (_v1.ctor)
          {case "_Tuple2":
-            return function () {
-                 switch (_v1.ctor)
-                 {case "_Tuple2":
-                    return function () {
-                         switch (_v0.ctor)
-                         {case "_Tuple2":
-                            return (_v0._0 - _v1._0) * (_v1._1 - _v2._1) - (_v0._1 - _v1._1) * (_v1._0 - _v2._0);}
-                         _U.badCase($moduleName,
-                         "on line 9, column 4 to 33");
-                      }();}
-                 _U.badCase($moduleName,
-                 "on line 9, column 4 to 33");
-              }();}
+            switch (_v1._0.ctor)
+              {case "_Tuple2":
+                 switch (_v1._1.ctor)
+                   {case "_Tuple2":
+                      return function () {
+                           switch (_v0.ctor)
+                           {case "_Tuple2":
+                              switch (_v0._0.ctor)
+                                {case "_Tuple2":
+                                   switch (_v0._1.ctor)
+                                     {case "_Tuple2":
+                                        return function () {
+                                             var cross = (_v0._0._0 - _v0._1._0) * (_v0._1._1 - _v1._1._1) - (_v0._0._1 - _v0._1._1) * (_v0._1._0 - _v1._1._0);
+                                             return _U.cmp(cross,
+                                             0) < 0 ? Right : _U.cmp(cross,
+                                             0) > 0 ? Left : Straight;
+                                          }();}
+                                     break;}
+                                break;}
+                           _U.badCase($moduleName,
+                           "between lines 18 and 23");
+                        }();}
+                   break;}
+              break;}
          _U.badCase($moduleName,
-         "on line 9, column 4 to 33");
+         "between lines 18 and 23");
       }();
    });
-   var Straight = {ctor: "Straight"};
-   var Right = {ctor: "Right"};
-   var Left = {ctor: "Left"};
-   var turns = F3(function (a,
-   b,
-   c) {
-      return _U.cmp(A3(cross,
-      a,
-      b,
-      c),
-      0) < 0 ? Left : _U.cmp(A3(cross,
-      a,
-      b,
-      c),
-      0) > 0 ? Right : Straight;
+   var sortPointsAround = F2(function (_v16,
+   lst) {
+      return function () {
+         switch (_v16.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var comparator = F2(function (_v20,
+                 _v21) {
+                    return function () {
+                       switch (_v21.ctor)
+                       {case "_Tuple2":
+                          return function () {
+                               switch (_v20.ctor)
+                               {case "_Tuple2":
+                                  return _U.cmp(_v20._0,
+                                    _v16._0) < 0 && _U.cmp(_v21._0,
+                                    _v16._0) > -1 ? $Basics.LT : _U.cmp(_v20._0,
+                                    _v16._0) > -1 && _U.cmp(_v21._0,
+                                    _v16._0) < 0 ? $Basics.GT : function () {
+                                       var _v28 = A2(turns,
+                                       {ctor: "_Tuple2"
+                                       ,_0: {ctor: "_Tuple2"
+                                            ,_0: _v16._0
+                                            ,_1: _v16._1}
+                                       ,_1: {ctor: "_Tuple2"
+                                            ,_0: _v20._0
+                                            ,_1: _v20._1}},
+                                       {ctor: "_Tuple2"
+                                       ,_0: {ctor: "_Tuple2"
+                                            ,_0: _v20._0
+                                            ,_1: _v20._1}
+                                       ,_1: {ctor: "_Tuple2"
+                                            ,_0: _v21._0
+                                            ,_1: _v21._1}});
+                                       switch (_v28.ctor)
+                                       {case "Left": return $Basics.LT;
+                                          case "Right": return $Basics.GT;
+                                          case "Straight":
+                                          return $Basics.EQ;}
+                                       _U.badCase($moduleName,
+                                       "between lines 30 and 34");
+                                    }();}
+                               _U.badCase($moduleName,
+                               "between lines 28 and 34");
+                            }();}
+                       _U.badCase($moduleName,
+                       "between lines 28 and 34");
+                    }();
+                 });
+                 return A2($List.sortWith,
+                 comparator,
+                 lst);
+              }();}
+         _U.badCase($moduleName,
+         "between lines 26 and 35");
+      }();
    });
+   var intersects = F2(function (_v29,
+   _v30) {
+      return function () {
+         switch (_v30.ctor)
+         {case "_Tuple2":
+            return function () {
+                 switch (_v29.ctor)
+                 {case "_Tuple2":
+                    return !_U.eq(A2(turns,
+                      {ctor: "_Tuple2"
+                      ,_0: _v29._0
+                      ,_1: _v29._1},
+                      {ctor: "_Tuple2"
+                      ,_0: _v29._1
+                      ,_1: _v30._0}),
+                      A2(turns,
+                      {ctor: "_Tuple2"
+                      ,_0: _v29._0
+                      ,_1: _v29._1},
+                      {ctor: "_Tuple2"
+                      ,_0: _v29._1
+                      ,_1: _v30._1})) && !_U.eq(A2(turns,
+                      {ctor: "_Tuple2"
+                      ,_0: _v30._0
+                      ,_1: _v30._1},
+                      {ctor: "_Tuple2"
+                      ,_0: _v30._1
+                      ,_1: _v29._0}),
+                      A2(turns,
+                      {ctor: "_Tuple2"
+                      ,_0: _v30._0
+                      ,_1: _v30._1},
+                      {ctor: "_Tuple2"
+                      ,_0: _v30._1
+                      ,_1: _v29._1}));}
+                 _U.badCase($moduleName,
+                 "between lines 62 and 63");
+              }();}
+         _U.badCase($moduleName,
+         "between lines 62 and 63");
+      }();
+   });
+   var pointInPolygon = F2(function (_v37,
+   l) {
+      return function () {
+         switch (_v37.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var outside = {ctor: "_Tuple2"
+                               ,_0: -10000
+                               ,_1: _v37._1};
+                 var ray = {ctor: "_Tuple2"
+                           ,_0: {ctor: "_Tuple2"
+                                ,_0: _v37._0
+                                ,_1: _v37._1}
+                           ,_1: outside};
+                 return !_U.eq(A2($Basics._op["%"],
+                 $List.length(A2($List.filter,
+                 intersects(ray),
+                 l)),
+                 2),
+                 0);
+              }();}
+         _U.badCase($moduleName,
+         "between lines 67 and 71");
+      }();
+   });
+   var grahamScan = F2(function (lst,
+   hull) {
+      return function () {
+         var addPoint = F2(function (p,
+         h) {
+            return function () {
+               switch (h.ctor)
+               {case "::": switch (h._1.ctor)
+                    {case "::":
+                       return _U.eq(A2(turns,
+                         {ctor: "_Tuple2"
+                         ,_0: h._0
+                         ,_1: h._1._0},
+                         {ctor: "_Tuple2"
+                         ,_0: h._0
+                         ,_1: p}),
+                         Right) ? A2($List._op["::"],
+                         p,
+                         h) : addPoint(p)(A2($List.drop,
+                         1,
+                         h));
+                       case "[]":
+                       return A2($List._op["::"],p,h);}
+                    break;
+                  case "[]":
+                  return _L.fromArray([p]);}
+               _U.badCase($moduleName,
+               "between lines 40 and 46");
+            }();
+         });
+         return function () {
+            switch (lst.ctor)
+            {case "::":
+               return grahamScan(lst._1)(A2(addPoint,
+                 lst._0,
+                 hull));}
+            return A2($List.map2,
+            F2(function (v0,v1) {
+               return {ctor: "_Tuple2"
+                      ,_0: v0
+                      ,_1: v1};
+            }),
+            hull)($List.drop(1)(A2($Basics._op["++"],
+            hull,
+            A2($List.take,1,hull))));
+         }();
+      }();
+   });
+   var convexHull = function (points) {
+      return function () {
+         var except = F2(function (x,
+         xs) {
+            return A2($List.filter,
+            function (a) {
+               return !_U.eq(a,x);
+            },
+            xs);
+         });
+         var pointOnHull = $List.minimum(points);
+         var sortedPoints = A2($Maybe.map,
+         function (poh) {
+            return A2($List._op["::"],
+            poh,
+            sortPointsAround(poh)(A2(except,
+            poh,
+            points)));
+         },
+         pointOnHull);
+         return function () {
+            switch (sortedPoints.ctor)
+            {case "Just":
+               return A2(grahamScan,
+                 sortedPoints._0,
+                 _L.fromArray([]));}
+            return _L.fromArray([]);
+         }();
+      }();
+   };
+   var toFloatPoint = function (_v51) {
+      return function () {
+         switch (_v51.ctor)
+         {case "_Tuple2":
+            return {ctor: "_Tuple2"
+                   ,_0: $Basics.toFloat(_v51._0)
+                   ,_1: $Basics.toFloat(_v51._1)};}
+         _U.badCase($moduleName,
+         "on line 13, column 24 to 44");
+      }();
+   };
    _elm.ComputationalGeometry.values = {_op: _op
-                                       ,Left: Left
+                                       ,toFloatPoint: toFloatPoint
                                        ,Right: Right
+                                       ,Left: Left
                                        ,Straight: Straight
-                                       ,cross: cross
-                                       ,turns: turns};
+                                       ,turns: turns
+                                       ,sortPointsAround: sortPointsAround
+                                       ,grahamScan: grahamScan
+                                       ,convexHull: convexHull
+                                       ,intersects: intersects
+                                       ,pointInPolygon: pointInPolygon};
    return _elm.ComputationalGeometry.values;
+};
+Elm.ConvexHull = Elm.ConvexHull || {};
+Elm.ConvexHull.make = function (_elm) {
+   "use strict";
+   _elm.ConvexHull = _elm.ConvexHull || {};
+   if (_elm.ConvexHull.values)
+   return _elm.ConvexHull.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "ConvexHull",
+   $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
+   $ComputationalGeometry = Elm.ComputationalGeometry.make(_elm),
+   $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var drawToCanvas = function (lst) {
+      return A3($Graphics$Collage.collage,
+      $Common.size.x,
+      $Common.size.y,
+      lst);
+   };
+   var lines = function (l) {
+      return A2($List.map,
+      $Common.lineToForm,
+      l);
+   };
+   var points = function (coords) {
+      return A2($List.map,
+      $Common.pointToForm,
+      coords);
+   };
+   var main = $Signal.map(drawToCanvas)(A3($Signal.map2,
+   F2(function (x,y) {
+      return A2($Basics._op["++"],
+      x,
+      y);
+   }),
+   A2($Signal.map,
+   function (x) {
+      return $List.map($Common.lineToForm)($ComputationalGeometry.convexHull(x));
+   },
+   $Common.clickCoordinates),
+   A2($Signal.map,
+   points,
+   $Common.clickCoordinates)));
+   _elm.ConvexHull.values = {_op: _op
+                            ,points: points
+                            ,lines: lines
+                            ,drawToCanvas: drawToCanvas
+                            ,main: main};
+   return _elm.ConvexHull.values;
 };
 Elm.Debug = Elm.Debug || {};
 Elm.Debug.make = function (_elm) {
@@ -6383,6 +6759,91 @@ Elm.Native.Utils.make = function(localRuntime) {
 	};
 };
 
+Elm.PointInPolygon = Elm.PointInPolygon || {};
+Elm.PointInPolygon.make = function (_elm) {
+   "use strict";
+   _elm.PointInPolygon = _elm.PointInPolygon || {};
+   if (_elm.PointInPolygon.values)
+   return _elm.PointInPolygon.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "PointInPolygon",
+   $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
+   $ComputationalGeometry = Elm.ComputationalGeometry.make(_elm),
+   $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var polygonFromPoints = function (pts) {
+      return A2($List.map2,
+      F2(function (v0,v1) {
+         return {ctor: "_Tuple2"
+                ,_0: v0
+                ,_1: v1};
+      }),
+      pts)(A2($Basics._op["++"],
+      A2($List.drop,1,pts),
+      A2($List.take,1,pts)));
+   };
+   var drawToCanvas = function (lst) {
+      return A3($Graphics$Collage.collage,
+      $Common.size.x,
+      $Common.size.y,
+      lst);
+   };
+   var lines = function (l) {
+      return A2($List.map,
+      $Common.lineToForm,
+      l);
+   };
+   var points = function (coords) {
+      return A2($List.map,
+      $Common.pointToForm,
+      coords);
+   };
+   var constPoint = {ctor: "_Tuple2"
+                    ,_0: 250
+                    ,_1: 250};
+   var main = $Signal.map(drawToCanvas)($Signal.map(function (l) {
+      return A2($List._op["::"],
+      $Common.pointToBigForm(constPoint),
+      l);
+   })(A3($Signal.map2,
+   F2(function (x,y) {
+      return A2($Basics._op["++"],
+      x,
+      y);
+   }),
+   A2($Signal.map,
+   function (xs) {
+      return $List.map($Common.lineToForm)(polygonFromPoints(xs));
+   },
+   $Common.clickCoordinates),
+   A2($Signal.map,
+   points,
+   $Common.clickCoordinates))));
+   var inPolygon = Elm.Native.Port.make(_elm).outboundSignal("inPolygon",
+   function (v) {
+      return v;
+   },
+   A2($Signal.map,
+   function (x) {
+      return $ComputationalGeometry.pointInPolygon(constPoint)(polygonFromPoints(x));
+   },
+   $Common.clickCoordinates));
+   _elm.PointInPolygon.values = {_op: _op
+                                ,constPoint: constPoint
+                                ,points: points
+                                ,lines: lines
+                                ,drawToCanvas: drawToCanvas
+                                ,polygonFromPoints: polygonFromPoints
+                                ,main: main};
+   return _elm.PointInPolygon.values;
+};
 Elm.PointInTriangle = Elm.PointInTriangle || {};
 Elm.PointInTriangle.make = function (_elm) {
    "use strict";
@@ -6395,45 +6856,52 @@ Elm.PointInTriangle.make = function (_elm) {
    _L = _N.List.make(_elm),
    $moduleName = "PointInTriangle",
    $Basics = Elm.Basics.make(_elm),
-   $Color = Elm.Color.make(_elm),
+   $Common = Elm.Common.make(_elm),
    $ComputationalGeometry = Elm.ComputationalGeometry.make(_elm),
    $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
-   $Mouse = Elm.Mouse.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
+   var drawToCanvas = function (lst) {
+      return function () {
+         var size = $Common.size;
+         return A3($Graphics$Collage.collage,
+         size.x,
+         size.y,
+         lst);
+      }();
+   };
    var pointInTriangleString = function (coords) {
       return function () {
          var inTriangle = F4(function (a,
          b,
          c,
          x) {
-            return _U.eq(A3($ComputationalGeometry.turns,
-            c,
-            b,
-            a),
-            A3($ComputationalGeometry.turns,
-            c,
-            b,
-            x)) && (_U.eq(A3($ComputationalGeometry.turns,
-            b,
-            a,
-            c),
-            A3($ComputationalGeometry.turns,
-            b,
-            a,
-            x)) && (_U.eq(A3($ComputationalGeometry.turns,
-            a,
-            c,
-            b),
-            A3($ComputationalGeometry.turns,
-            a,
-            c,
-            x)) && !_U.eq(A3($ComputationalGeometry.turns,
-            c,
-            b,
-            a),
+            return _U.eq(A2($ComputationalGeometry.turns,
+            {ctor: "_Tuple2",_0: c,_1: b},
+            {ctor: "_Tuple2",_0: b,_1: a}),
+            A2($ComputationalGeometry.turns,
+            {ctor: "_Tuple2",_0: c,_1: b},
+            {ctor: "_Tuple2"
+            ,_0: b
+            ,_1: x})) && (_U.eq(A2($ComputationalGeometry.turns,
+            {ctor: "_Tuple2",_0: b,_1: a},
+            {ctor: "_Tuple2",_0: a,_1: c}),
+            A2($ComputationalGeometry.turns,
+            {ctor: "_Tuple2",_0: b,_1: a},
+            {ctor: "_Tuple2"
+            ,_0: a
+            ,_1: x})) && (_U.eq(A2($ComputationalGeometry.turns,
+            {ctor: "_Tuple2",_0: a,_1: c},
+            {ctor: "_Tuple2",_0: c,_1: b}),
+            A2($ComputationalGeometry.turns,
+            {ctor: "_Tuple2",_0: a,_1: c},
+            {ctor: "_Tuple2"
+            ,_0: c
+            ,_1: x})) && !_U.eq(A2($ComputationalGeometry.turns,
+            {ctor: "_Tuple2",_0: c,_1: b},
+            {ctor: "_Tuple2",_0: b,_1: a}),
             $ComputationalGeometry.Straight)));
          });
          return function () {
@@ -6480,93 +6948,25 @@ Elm.PointInTriangle.make = function (_elm) {
       }();
    };
    var lines = function (coords) {
-      return $List.map(function (_v12) {
-         return function () {
-            switch (_v12.ctor)
-            {case "_Tuple2":
-               return A2($Graphics$Collage.outlined,
-                 $Graphics$Collage.solid($Color.black),
-                 A2($Graphics$Collage.segment,
-                 _v12._0,
-                 _v12._1));}
-            _U.badCase($moduleName,
-            "on line 49, column 37 to 72");
-         }();
-      })(coordPairs(coords));
+      return function () {
+         var pairs = coordPairs(coords);
+         return A2($List.map,
+         $Common.lineToForm,
+         pairs);
+      }();
    };
    var points = function (coords) {
       return A2($List.map,
-      $Basics.flip($Graphics$Collage.move)($Graphics$Collage.filled($Color.brown)($Graphics$Collage.circle(2))),
+      $Common.pointToForm,
       coords);
    };
-   var mouseEvents = A2($Signal.sampleOn,
-   $Mouse.clicks,
-   $Mouse.position);
-   var size = {_: {}
-              ,x: 600
-              ,y: 600};
-   var inCanvas = function (_v16) {
-      return function () {
-         switch (_v16.ctor)
-         {case "_Tuple2":
-            return _U.cmp(_v16._0,
-              size.x) < 0 && _U.cmp(_v16._1,
-              size.y) < 0;}
-         _U.badCase($moduleName,
-         "on line 19, column 19 to 43");
-      }();
-   };
-   var relativeCoordinates = function (_v20) {
-      return function () {
-         switch (_v20.ctor)
-         {case "_Tuple2":
-            return {ctor: "_Tuple2"
-                   ,_0: $Basics.toFloat(_v20._0) - $Basics.toFloat(size.x) / 2.0
-                   ,_1: $Basics.toFloat(size.y) / 2.0 - $Basics.toFloat(_v20._1)};}
-         _U.badCase($moduleName,
-         "on line 35, column 31 to 93");
-      }();
-   };
-   var clickCoordinates = function () {
-      var update = F2(function (_v24,
-      locations) {
-         return function () {
-            switch (_v24.ctor)
-            {case "_Tuple2":
-               return _U.cmp($List.length(locations),
-                 4) < 0 ? A2($List._op["::"],
-                 relativeCoordinates({ctor: "_Tuple2"
-                                     ,_0: _v24._0
-                                     ,_1: _v24._1}),
-                 locations) : A2($List._op["::"],
-                 relativeCoordinates({ctor: "_Tuple2"
-                                     ,_0: _v24._0
-                                     ,_1: _v24._1}),
-                 _L.fromArray([]));}
-            _U.badCase($moduleName,
-            "between lines 27 and 28");
-         }();
-      });
-      return A2($Signal.foldp,
-      update,
-      _L.fromArray([]))(A3($Signal.filter,
-      inCanvas,
-      {ctor: "_Tuple2",_0: 0,_1: 0},
-      mouseEvents));
-   }();
-   var inTriangle = Elm.Native.Port.make(_elm).outboundSignal("inTriangle",
-   function (v) {
-      return v.ctor === "Nothing" ? null : v._0;
+   var coordinates = A2($Signal.map,
+   function (lst) {
+      return $List.take(A2($Basics._op["%"],
+      $List.length(lst),
+      5))($List.reverse(lst));
    },
-   A2($Signal.map,
-   pointInTriangleString,
-   clickCoordinates));
-   var drawToCanvas = function (lst) {
-      return A3($Graphics$Collage.collage,
-      size.x,
-      size.y,
-      lst);
-   };
+   $Common.clickCoordinates);
    var main = $Signal.map(drawToCanvas)(A3($Signal.map2,
    F2(function (x,y) {
       return A2($Basics._op["++"],
@@ -6575,16 +6975,19 @@ Elm.PointInTriangle.make = function (_elm) {
    }),
    A2($Signal.map,
    lines,
-   clickCoordinates),
+   coordinates),
    A2($Signal.map,
    points,
-   clickCoordinates)));
+   coordinates)));
+   var inTriangle = Elm.Native.Port.make(_elm).outboundSignal("inTriangle",
+   function (v) {
+      return v.ctor === "Nothing" ? null : v._0;
+   },
+   A2($Signal.map,
+   pointInTriangleString,
+   coordinates));
    _elm.PointInTriangle.values = {_op: _op
-                                 ,size: size
-                                 ,mouseEvents: mouseEvents
-                                 ,inCanvas: inCanvas
-                                 ,clickCoordinates: clickCoordinates
-                                 ,relativeCoordinates: relativeCoordinates
+                                 ,coordinates: coordinates
                                  ,points: points
                                  ,coordPairs: coordPairs
                                  ,lines: lines
@@ -6605,139 +7008,23 @@ Elm.RadialSort.make = function (_elm) {
    _L = _N.List.make(_elm),
    $moduleName = "RadialSort",
    $Basics = Elm.Basics.make(_elm),
-   $Color = Elm.Color.make(_elm),
+   $Common = Elm.Common.make(_elm),
    $ComputationalGeometry = Elm.ComputationalGeometry.make(_elm),
    $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
-   $Mouse = Elm.Mouse.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
-   var sortPointsAround = F2(function (_v0,
-   lst) {
-      return function () {
-         switch (_v0.ctor)
-         {case "_Tuple2":
-            return function () {
-                 var comparator = F2(function (_v4,
-                 _v5) {
-                    return function () {
-                       switch (_v5.ctor)
-                       {case "_Tuple2":
-                          return function () {
-                               switch (_v4.ctor)
-                               {case "_Tuple2":
-                                  return _U.cmp(_v4._0,
-                                    _v0._0) < 0 && _U.cmp(_v5._0,
-                                    _v0._0) > -1 ? $Basics.LT : _U.cmp(_v4._0,
-                                    _v0._0) > -1 && _U.cmp(_v5._0,
-                                    _v0._0) < 0 ? $Basics.GT : function () {
-                                       var _v12 = A3($ComputationalGeometry.turns,
-                                       {ctor: "_Tuple2"
-                                       ,_0: _v0._0
-                                       ,_1: _v0._1},
-                                       {ctor: "_Tuple2"
-                                       ,_0: _v4._0
-                                       ,_1: _v4._1},
-                                       {ctor: "_Tuple2"
-                                       ,_0: _v5._0
-                                       ,_1: _v5._1});
-                                       switch (_v12.ctor)
-                                       {case "Left": return $Basics.LT;
-                                          case "Right": return $Basics.GT;
-                                          case "Straight":
-                                          return $Basics.EQ;}
-                                       _U.badCase($moduleName,
-                                       "between lines 43 and 47");
-                                    }();}
-                               _U.badCase($moduleName,
-                               "between lines 41 and 47");
-                            }();}
-                       _U.badCase($moduleName,
-                       "between lines 41 and 47");
-                    }();
-                 });
-                 return A2($List.sortWith,
-                 comparator,
-                 lst);
-              }();}
-         _U.badCase($moduleName,
-         "between lines 39 and 48");
-      }();
-   });
-   var sortedPath = function (lst) {
-      return function () {
-         var rev = $List.reverse(lst);
-         return function () {
-            switch (rev.ctor)
-            {case "::":
-               return _L.fromArray([$Graphics$Collage.outlined($Graphics$Collage.solid($Color.black))($Graphics$Collage.path(A2(sortPointsAround,
-                 rev._0,
-                 rev._1)))]);}
-            return _L.fromArray([]);
-         }();
-      }();
+   var drawToCanvas = function (lst) {
+      return A3($Graphics$Collage.collage,
+      $Common.size.x,
+      $Common.size.y,
+      lst);
    };
    var points = function (coords) {
       return A2($List.map,
-      $Basics.flip($Graphics$Collage.move)($Graphics$Collage.filled($Color.brown)($Graphics$Collage.circle(2))),
+      $Common.pointToForm,
       coords);
-   };
-   var mouseEvents = A2($Signal.sampleOn,
-   $Mouse.clicks,
-   $Mouse.position);
-   var size = {_: {}
-              ,x: 600
-              ,y: 600};
-   var inCanvas = function (_v16) {
-      return function () {
-         switch (_v16.ctor)
-         {case "_Tuple2":
-            return _U.cmp(_v16._0,
-              size.x) < 0 && _U.cmp(_v16._1,
-              size.y) < 0;}
-         _U.badCase($moduleName,
-         "on line 19, column 19 to 43");
-      }();
-   };
-   var relativeCoordinates = function (_v20) {
-      return function () {
-         switch (_v20.ctor)
-         {case "_Tuple2":
-            return {ctor: "_Tuple2"
-                   ,_0: $Basics.toFloat(_v20._0) - $Basics.toFloat(size.x) / 2.0
-                   ,_1: $Basics.toFloat(size.y) / 2.0 - $Basics.toFloat(_v20._1)};}
-         _U.badCase($moduleName,
-         "on line 33, column 31 to 93");
-      }();
-   };
-   var clickCoordinates = function () {
-      var update = F2(function (_v24,
-      locations) {
-         return function () {
-            switch (_v24.ctor)
-            {case "_Tuple2":
-               return A2($List._op["::"],
-                 relativeCoordinates({ctor: "_Tuple2"
-                                     ,_0: _v24._0
-                                     ,_1: _v24._1}),
-                 locations);}
-            _U.badCase($moduleName,
-            "on line 26, column 31 to 68");
-         }();
-      });
-      return A2($Signal.foldp,
-      update,
-      _L.fromArray([]))(A3($Signal.filter,
-      inCanvas,
-      {ctor: "_Tuple2",_0: 0,_1: 0},
-      mouseEvents));
-   }();
-   var drawToCanvas = function (lst) {
-      return A3($Graphics$Collage.collage,
-      size.x,
-      size.y,
-      lst);
    };
    var main = $Signal.map(drawToCanvas)(A3($Signal.map2,
    F2(function (x,y) {
@@ -6746,20 +7033,19 @@ Elm.RadialSort.make = function (_elm) {
       y);
    }),
    A2($Signal.map,
-   sortedPath,
-   clickCoordinates),
+   function (ps) {
+      return A2($Common.sortedPathAround,
+      $Maybe.withDefault({ctor: "_Tuple2"
+                         ,_0: 0
+                         ,_1: 0})($List.head(ps)),
+      A2($List.drop,1,ps));
+   },
+   $Common.clickCoordinates),
    A2($Signal.map,
    points,
-   clickCoordinates)));
+   $Common.clickCoordinates)));
    _elm.RadialSort.values = {_op: _op
-                            ,size: size
-                            ,mouseEvents: mouseEvents
-                            ,inCanvas: inCanvas
-                            ,clickCoordinates: clickCoordinates
-                            ,relativeCoordinates: relativeCoordinates
                             ,points: points
-                            ,sortPointsAround: sortPointsAround
-                            ,sortedPath: sortedPath
                             ,drawToCanvas: drawToCanvas
                             ,main: main};
    return _elm.RadialSort.values;
