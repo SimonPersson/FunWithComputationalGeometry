@@ -38,5 +38,8 @@ sortedPathAround p lst = [outlined (solid black) <| path
 pointToForm : Point -> Form
 pointToForm coords = move (toFloatPoint coords) <| filled brown <| circle 2
 
+pointToBigForm : Point -> Form
+pointToBigForm coords = move (toFloatPoint coords) <| filled black <| circle 5
+
 lineToForm : (Point, Point) -> Form
 lineToForm (a, b) = outlined (solid black) <| segment (toFloatPoint a) (toFloatPoint b)

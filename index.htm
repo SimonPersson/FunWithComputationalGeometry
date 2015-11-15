@@ -28,10 +28,20 @@
 		<div class="demo">
 			<h3>Convex Hull</h3>
 			<p>
-				Add points and a line will be drawn around the
+				Click to add points and a line will be drawn around the
 				convex hull of the points.
 			</p>
 			<div id="convex-hull" class="demo-canvas"></div>
+		</div>
+		<div class="demo">
+			<h3>Point in polygon?</h3>
+			<p>
+				Click to add points. A line will be drawn between each consecutive point
+				and between the first and last point, forming a polygon. The program
+				will tell wether the black point is in the polygon.
+			</p>
+			<div id="point-in-polygon" class="demo-canvas"></div>
+			<p id="in-polygon-string"></p>
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -44,6 +54,15 @@
 				trianglestr.innerHTML = str;
 			} else {
 				trianglestr.innerHTML = "";
+			}
+		});
+		Elm.embed(Elm.PointInPolygon, document.getElementById('point-in-polygon'))
+		   .ports.inPolygon.subscribe(function(inside) {
+			var polygonstr = document.getElementById('in-polygon-string');
+			if(inside) {
+				polygonstr.innerHTML = "Point is inside polygon."
+			} else {
+				polygonstr.innerHTML = "Point is not inside polygon";
 			}
 		});
 	</script>	

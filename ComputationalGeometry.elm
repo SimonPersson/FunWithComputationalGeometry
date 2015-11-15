@@ -57,3 +57,15 @@ convexHull points = let
     case sortedPoints of
       Just ps -> grahamScan ps []
       _ -> []
+
+intersects : Line -> Line -> Bool
+intersects (a1, a2) (b1, b2) = turns (a1, a2) (a2, b1) /= turns (a1, a2) (a2, b2)
+                                && turns (b1, b2) (b2, a1) /= turns (b1, b2) (b2, a2)
+
+
+pointInPolygon : Point -> List Line -> Bool
+pointInPolygon (px, py) l = let
+    outside = (-10000, py)
+    ray = ((px, py), outside)
+  in
+    (L.length <| L.filter (intersects ray) l) % 2 /= 0
