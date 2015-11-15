@@ -25,9 +25,18 @@
 			</p>
 			<div id="radial-sort" class="demo-canvas"></div>
 		</div>
+		<div class="demo">
+			<h3>Convex Hull</h3>
+			<p>
+				Add points and a line will be drawn around the
+				convex hull of the points.
+			</p>
+			<div id="convex-hull" class="demo-canvas"></div>
+		</div>
 	</body>
 	<script type="text/javascript">
 		Elm.embed(Elm.RadialSort, document.getElementById('radial-sort'));
+		Elm.embed(Elm.ConvexHull, document.getElementById('convex-hull'));
 		Elm.embed(Elm.PointInTriangle, document.getElementById('point-in-triangle'))
 		   .ports.inTriangle.subscribe(function(str) {
 			var trianglestr = document.getElementById('in-triangle-string');

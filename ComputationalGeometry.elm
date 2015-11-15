@@ -1,5 +1,8 @@
 module ComputationalGeometry where
 
+import List as L
+import Maybe as M
+import Debug as D
 import Color exposing (brown, black)
 import Graphics.Collage exposing (Form, path, segment, circle, move, filled
                                   , solid, outlined)
@@ -48,5 +51,31 @@ sortedPath lst = let
 pointToForm : Point -> Form
 pointToForm coords = move (toFloatPoint coords) <| filled brown <| circle 2
 
-pointPairToLine : (Point, Point) -> Form
-pointPairToLine (a, b) = outlined (solid black) <| segment (toFloatPoint a) (toFloatPoint b)
+pointToBigForm coords = move (toFloatPoint coords) <| filled brown <| circle 4
+
+lineToForm : (Point, Point) -> Form
+lineToForm (a, b) = outlined (solid black) <| segment (toFloatPoint a) (toFloatPoint b)
+
+grahamScan : List Point -> List Point -> List Line
+grahamScan lst hull = let
+    addPoint p h = 
+      case h of
+        h1::h2::hs ->
+                if | turns (h1, h2) (h1, p) == Right -> p::h
+                   | otherwise -> addPoint p <| L.drop 1 h
+        [h1] -> p::h
+        [] -> [p]
+  in
+    case lst of
+      p::ps -> grahamScan ps <| addPoint p hull
+      otherwise -> L.map2 (,) hull <| L.drop 1 <| hull ++ (L.take 1 hull)
+
+convexHull : List Point -> List Line
+convexHull points = let 
+    pointOnHull = L.minimum points
+    except x xs = L.filter (\a -> a/=x) xs
+    sortedPoints = M.map (\poh -> poh::(sortPointsAround poh <| except poh points)) pointOnHull
+  in
+    case sortedPoints of
+      Just ps -> grahamScan ps []
+      _ -> []

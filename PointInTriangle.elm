@@ -3,7 +3,7 @@ module PointInTriangle where
 import List as L
 import Signal as S
 import ComputationalGeometry as CG exposing(Point, toFloatPoint, turns
-                                            , pointToForm, pointPairToLine)
+                                            , pointToForm, lineToForm)
 import Common exposing(clickCoordinates, size)
 import Graphics.Collage exposing(Form, collage)
 
@@ -25,7 +25,7 @@ lines : List Point -> List Form
 lines coords = let
     pairs = coordPairs coords
   in
-    L.map pointPairToLine pairs
+    L.map lineToForm pairs
 
 pointInTriangleString : List Point -> Maybe String
 pointInTriangleString coords = let
