@@ -3,8 +3,8 @@ module ConvexHull where
 import Graphics.Collage exposing (Form, collage, outlined)
 import List as L
 import Signal as S
-import ComputationalGeometry exposing(Point, pointToForm, toFloatPoint, sortedPath, Line, lineToForm, convexHull)
-import Common exposing (clickCoordinates, size)
+import ComputationalGeometry exposing(Point, toFloatPoint, Line, convexHull)
+import Common exposing (clickCoordinates, size, pointToForm, lineToForm)
 
 points : List Point -> List Form
 points coords = List.map pointToForm coords

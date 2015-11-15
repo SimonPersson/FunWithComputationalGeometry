@@ -2,13 +2,12 @@ module PointInTriangle where
 
 import List as L
 import Signal as S
-import ComputationalGeometry as CG exposing(Point, toFloatPoint, turns
-                                            , pointToForm, lineToForm)
-import Common exposing(clickCoordinates, size)
+import ComputationalGeometry as CG exposing(Point, toFloatPoint, turns)
+import Common exposing(clickCoordinates, size, pointToForm, lineToForm)
 import Graphics.Collage exposing(Form, collage)
 
 coordinates : Signal (List Point)
-coordinates = S.map (\lst -> L.take (L.length lst % 5) lst) clickCoordinates
+coordinates = S.map (\lst -> L.take (L.length lst % 5) <| L.reverse lst) clickCoordinates
 
 points : List Point -> List Form
 points coords = L.map pointToForm coords

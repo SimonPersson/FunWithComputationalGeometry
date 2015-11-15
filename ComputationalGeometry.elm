@@ -3,9 +3,6 @@ module ComputationalGeometry where
 import List as L
 import Maybe as M
 import Debug as D
-import Color exposing (brown, black)
-import Graphics.Collage exposing (Form, path, segment, circle, move, filled
-                                  , solid, outlined)
 
 type alias Point = (Int, Int)
 type alias FloatPoint = (Float, Float)
@@ -36,25 +33,6 @@ sortPointsAround (px, py) lst = let
                                 Straight -> EQ
   in
     List.sortWith comparator lst
-
-sortedPath : List Point -> List Form
-sortedPath lst = let
-    rev = List.reverse lst
-  in
-    case rev of
-      p::ps -> [outlined (solid black) <| path
-                                       <| List.map toFloatPoint
-                                       <| sortPointsAround p ps
-                                       ]
-      otherwise -> []
-
-pointToForm : Point -> Form
-pointToForm coords = move (toFloatPoint coords) <| filled brown <| circle 2
-
-pointToBigForm coords = move (toFloatPoint coords) <| filled brown <| circle 4
-
-lineToForm : (Point, Point) -> Form
-lineToForm (a, b) = outlined (solid black) <| segment (toFloatPoint a) (toFloatPoint b)
 
 grahamScan : List Point -> List Point -> List Line
 grahamScan lst hull = let
