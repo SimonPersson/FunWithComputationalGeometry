@@ -9,6 +9,8 @@ type alias FloatPoint = (Float, Float)
 
 type alias Line = (Point, Point)
 
+type alias Polygon = List Line
+
 toFloatPoint : Point -> FloatPoint
 toFloatPoint (x, y) = (toFloat x, toFloat y)
 
@@ -34,7 +36,7 @@ sortPointsAround (px, py) lst = let
   in
     List.sortWith comparator lst
 
-grahamScan : List Point -> List Point -> List Line
+grahamScan : List Point -> List Point -> Polygon
 grahamScan lst hull = let
     addPoint p h = 
       case h of
@@ -48,7 +50,7 @@ grahamScan lst hull = let
       p::ps -> grahamScan ps <| addPoint p hull
       otherwise -> L.map2 (,) hull <| L.drop 1 <| hull ++ (L.take 1 hull)
 
-convexHull : List Point -> List Line
+convexHull : List Point -> Polygon
 convexHull points = let 
     pointOnHull = L.minimum points
     except x xs = L.filter (\a -> a/=x) xs
@@ -63,7 +65,7 @@ intersects (a1, a2) (b1, b2) = turns (a1, a2) (a2, b1) /= turns (a1, a2) (a2, b2
                                 && turns (b1, b2) (b2, a1) /= turns (b1, b2) (b2, a2)
 
 
-pointInPolygon : Point -> List Line -> Bool
+pointInPolygon : Point -> Polygon -> Bool
 pointInPolygon (px, py) l = let
     outside = (-10000, py)
     ray = ((px, py), outside)
