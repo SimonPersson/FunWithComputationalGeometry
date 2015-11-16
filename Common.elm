@@ -1,6 +1,6 @@
 module Common where
 
-import ComputationalGeometry exposing(Point, toFloatPoint, sortPointsAround)
+import ComputationalGeometry exposing(Point, Line, toFloatPoint, sortPointsAround)
 import Mouse
 import Color exposing (brown, black)
 import Graphics.Collage exposing (Form, path, segment, circle, move, filled
@@ -9,10 +9,10 @@ import Graphics.Collage exposing (Form, path, segment, circle, move, filled
 size : { x:Int, y:Int }
 size = { x = 600, y = 600 }
 
-mouseEvents : Signal (Int, Int)
+mouseEvents : Signal Point
 mouseEvents = Signal.sampleOn Mouse.clicks Mouse.position
 
-inCanvas : (number, number) -> Bool
+inCanvas : Point -> Bool
 inCanvas (x, y) = x < size.x && y < size.y
 
 -- Builds a list of coordinates from the mouse clicks,
@@ -26,7 +26,7 @@ clickCoordinates =
 
 -- Rewrite coordinates so that (0,0) is in the middle,
 -- not in the upper left corner.
-relativeCoordinates : (Int, Int) -> Point
+relativeCoordinates : Point -> Point
 relativeCoordinates (x, y) = (x - size.x//2, size.y//2 - y)
 
 sortedPathAround : Point -> List Point -> List Form
@@ -41,5 +41,5 @@ pointToForm coords = move (toFloatPoint coords) <| filled brown <| circle 2
 pointToBigForm : Point -> Form
 pointToBigForm coords = move (toFloatPoint coords) <| filled black <| circle 5
 
-lineToForm : (Point, Point) -> Form
+lineToForm : Line -> Form
 lineToForm (a, b) = outlined (solid black) <| segment (toFloatPoint a) (toFloatPoint b)
